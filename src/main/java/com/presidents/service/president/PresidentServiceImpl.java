@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
@@ -23,6 +25,20 @@ public class PresidentServiceImpl implements PresidentService {
                 .stream()
                 .map(PresidentMapper::toDto)
                 .toList();
+    }
+
+    @Override
+    public Set<PresidentDto> findPresidentsByName(String name) {
+        return presidentsRepository.findPresidentByName(name).stream()
+                .map(PresidentMapper::toDto)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<PresidentDto> findPresidentsByPoliticalParty(String politicalParty) {
+        return (presidentsRepository.findPresidentByPoliticalParty(politicalParty)).stream()
+                .map(PresidentMapper::toDto)
+                .collect(Collectors.toSet());
     }
 
     @Override

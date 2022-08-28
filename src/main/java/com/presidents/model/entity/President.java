@@ -1,7 +1,6 @@
 package com.presidents.model.entity;
 
 import lombok.*;
-import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

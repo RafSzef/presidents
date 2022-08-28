@@ -1,12 +1,12 @@
 package com.presidents.controler;
 
 import com.presidents.model.dto.PresidentDto;
-import com.presidents.model.entity.President;
 import com.presidents.service.president.PresidentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 //import static com.presidents.repository.PresidentsRepository.presidentRepository;
 
@@ -41,5 +41,15 @@ public class PresidentsController {
     @DeleteMapping("delete/{id}")
     public void delete (@PathVariable int id){
         presidentService.deletePresident((long) id);
+    }
+
+    @GetMapping("find/{name}")
+    public Set<PresidentDto> findPresidentByName(@PathVariable String name){
+        return presidentService.findPresidentsByName(name);
+    }
+
+    @GetMapping("find-by-party/{politicalParty}")
+    public Set<PresidentDto> findPresidentByParty(@PathVariable String politicalParty){
+        return presidentService.findPresidentsByPoliticalParty(politicalParty);
     }
 }
