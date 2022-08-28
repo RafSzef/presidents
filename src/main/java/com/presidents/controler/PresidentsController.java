@@ -37,9 +37,9 @@ public class PresidentsController {
     public PresidentDto updatePresidentPart(@RequestBody PresidentDto presidentDto) {
         return presidentService.updatePresidentPartial(presidentDto);
     }
-//    @DeleteMapping("delete/{id}")
-//    public String delete (@PathVariable int id){
-//        presidentRepository.remove(id);
-//        return "deleted";
-//    }
+
+    @DeleteMapping("delete/{id}")
+    public void delete (@PathVariable int id){
+        presidentService.deletePresident((long) id);
+    }
 }

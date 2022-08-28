@@ -11,4 +11,5 @@ public interface PresidentService {
     PresidentDto savePresident(PresidentDto presidentDto);
     PresidentDto updatePresident(PresidentDto presidentDto);
     PresidentDto updatePresidentPartial(PresidentDto presidentDto);
+    void deletePresident(Long id);
 }
