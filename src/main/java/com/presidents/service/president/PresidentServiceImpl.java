@@ -12,8 +12,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PresidentServiceImpl implements PresidentService{
+public class PresidentServiceImpl implements PresidentService {
     private final PresidentsRepository presidentsRepository;
+
     @Override
     public List<PresidentDto> getAllPresidents() {
         return presidentsRepository.findAll()
@@ -38,6 +39,30 @@ public class PresidentServiceImpl implements PresidentService{
                     president.setTermFrom(presidentDto.getTermFrom());
                     president.setTermTo(presidentDto.getTermTo());
                     president.setPoliticalParty(presidentDto.getPoliticalParty());
+                });
+        return PresidentMapper.toDto(presidentsRepository.getReferenceById(presidentDto.getId()));
+    }
+
+    @Override
+    @Transactional
+    public PresidentDto updatePresidentPartial(PresidentDto presidentDto) {
+        presidentsRepository.findById(presidentDto.getId())
+                .ifPresent(p -> {
+                    if (presidentDto.getName() != null) {
+                        p.setName(presidentDto.getName());
+                    }
+                    if (presidentDto.getSurname() != null) {
+                        p.setSurname(presidentDto.getSurname());
+                    }
+                    if (presidentDto.getTermFrom() != null) {
+                        p.setTermFrom(presidentDto.getTermFrom());
+                    }
+                    if (presidentDto.getTermTo() != null) {
+                        p.setTermTo(presidentDto.getTermTo());
+                    }
+                    if (presidentDto.getPoliticalParty() != null) {
+                        p.setPoliticalParty(presidentDto.getPoliticalParty());
+                    }
                 });
         return PresidentMapper.toDto(presidentsRepository.getReferenceById(presidentDto.getId()));
     }

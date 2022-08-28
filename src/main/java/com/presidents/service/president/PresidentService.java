@@ -10,4 +10,5 @@ public interface PresidentService {
     List<PresidentDto> getAllPresidents();
     PresidentDto savePresident(PresidentDto presidentDto);
     PresidentDto updatePresident(PresidentDto presidentDto);
+    PresidentDto updatePresidentPartial(PresidentDto presidentDto);
 }
