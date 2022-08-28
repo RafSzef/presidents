@@ -1,7 +1,7 @@
 package com.presidents.controler;
 
+import com.presidents.model.dto.PresidentDto;
 import com.presidents.model.entity.President;
-import com.presidents.repository.PresidentsRepository;
 import com.presidents.service.president.PresidentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,25 +18,20 @@ public class PresidentsController {
     private final PresidentService presidentService;
 
     @GetMapping("all")
-    public List<President> getAll() {
+    public List<PresidentDto> getAll() {
         return presidentService.getAllPresidents();
     }
 
     @PostMapping("add-new")
-    public President addPresident(@RequestBody President president) {
-        return presidentService.savePresident(president);
+    public PresidentDto addPresident(@RequestBody PresidentDto presidentDto) {
+        return presidentService.savePresident(presidentDto);
     }
 
-//    @PutMapping("update")
-//    public President updatePresident(@RequestBody President president) {
-//        if (presidentRepository.size() <= president.getId()) {
-//            president.setId(presidentRepository.size());
-//            presidentRepository.add(president);
-//        } else {
-//            presidentRepository.set((int) president.getId(), president);
-//        }
-//        return presidentRepository.get((int) president.getId());
-//    }
+    @PutMapping("update")
+    public PresidentDto updatePresident(@RequestBody PresidentDto presidentDto) {
+
+        return presidentService.updatePresident(presidentDto);
+    }
 //
 //    @PatchMapping("update")
 //    public President updatePresidentPart(@RequestBody President president){
