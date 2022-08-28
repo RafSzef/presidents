@@ -2,10 +2,9 @@ package com.presidents.controler;
 
 import com.presidents.model.entity.President;
 import com.presidents.repository.PresidentsRepository;
+import com.presidents.service.president.PresidentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,19 +15,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PresidentsController {
 
-    private final PresidentsRepository presidentRepository;
+    private final PresidentService presidentService;
 
     @GetMapping("all")
     public List<President> getAll() {
-        return presidentRepository.findAll();
+        return presidentService.getAllPresidents();
     }
 
-//    @PostMapping("add-new")
-//    public President addPresident(@RequestBody President president) {
-//        presidentRepository.add(president);
-//        return presidentRepository.get((int) president.getId());
-//    }
-//
+    @PostMapping("add-new")
+    public President addPresident(@RequestBody President president) {
+        return presidentService.savePresident(president);
+    }
+
 //    @PutMapping("update")
 //    public President updatePresident(@RequestBody President president) {
 //        if (presidentRepository.size() <= president.getId()) {
