@@ -48,7 +48,7 @@ public class PresidentServiceImpl implements PresidentService {
 
     @Override
     public PresidentDto updatePresident(PresidentDto presidentDto) {
-        presidentsRepository
+        return presidentsRepository
                 .findById(presidentDto.getId())
                 .map(president -> {
                     president.setName(presidentDto.getName());
@@ -56,14 +56,13 @@ public class PresidentServiceImpl implements PresidentService {
                     president.setTermFrom(presidentDto.getTermFrom());
                     president.setTermTo(presidentDto.getTermTo());
                     president.setPoliticalParty(presidentDto.getPoliticalParty());
-                    return president;
-                });
-        return PresidentMapper.toDto(presidentsRepository.getReferenceById(presidentDto.getId()));
+                    return PresidentMapper.toDto(president);
+                }).get();
     }
 
     @Override
     public PresidentDto updatePresidentPartial(PresidentDto presidentDto) {
-        presidentsRepository.findById(presidentDto.getId())
+        return presidentsRepository.findById(presidentDto.getId())
                 .map(p -> {
                     if (nonNull(presidentDto.getName())) {
                         p.setName(presidentDto.getName());
@@ -81,8 +80,7 @@ public class PresidentServiceImpl implements PresidentService {
                         p.setPoliticalParty(presidentDto.getPoliticalParty());
                     }
                     return PresidentMapper.toDto(p);
-                });
-        return PresidentMapper.toDto(presidentsRepository.getReferenceById(presidentDto.getId()));
+                }).get();
     }
 
     @Override
