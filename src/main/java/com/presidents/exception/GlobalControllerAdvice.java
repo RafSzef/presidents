@@ -16,19 +16,19 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public final ResponseEntity<Object> handlerEntityNotFoundException(Exception ex) {
-        return new ResponseEntity<>(getBody(HttpStatus.BAD_REQUEST, ex), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(getBody(HttpStatus.BAD_REQUEST, ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public final ResponseEntity<Object> handlerHttpMessageNotReadableException(Exception ex) {
-        return new ResponseEntity<>(getBody(HttpStatus.BAD_REQUEST, ex), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(getBody(HttpStatus.BAD_REQUEST, ex.getMessage().split(":")[0]), HttpStatus.BAD_REQUEST);
     }
 
-    private static Map<String, Object> getBody(HttpStatus httpStatus, Exception ex) {
+    private static Map<String, Object> getBody(HttpStatus httpStatus, String message) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", Instant.now());
         body.put("code", httpStatus.value());
-        body.put("messege", ex.getMessage());
+        body.put("message", message);
         return body;
     }
 }
