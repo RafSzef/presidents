@@ -1,5 +1,6 @@
 package com.presidents.service.president;
 
+import com.presidents.exception.exceptions.EntityNotFoundException;
 import com.presidents.model.dto.PresidentDto;
 import com.presidents.model.mapper.PresidentMapper;
 import com.presidents.repository.PresidentsRepository;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.presidents.exception.messeges.ExceptionMessages.ENTITY_FOR_PROVIDED_ID_NOT_EXIST;
 import static java.util.Objects.nonNull;
 
 @Service
@@ -80,7 +82,7 @@ public class PresidentServiceImpl implements PresidentService {
                         p.setPoliticalParty(presidentDto.getPoliticalParty());
                     }
                     return PresidentMapper.toDto(p);
-                }).get();
+                }).orElseThrow(() -> new EntityNotFoundException(ENTITY_FOR_PROVIDED_ID_NOT_EXIST.getMessage()));
     }
 
     @Override
