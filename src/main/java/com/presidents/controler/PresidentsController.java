@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
@@ -25,12 +26,12 @@ public class PresidentsController {
     }
 
     @PostMapping("add-new")
-    public PresidentDto addPresident(@RequestBody PresidentDto presidentDto) {
+    public PresidentDto addPresident(@Valid @RequestBody PresidentDto presidentDto) {
         return presidentService.savePresident(presidentDto);
     }
 
     @PutMapping("update")
-    public PresidentDto updatePresident(@RequestBody PresidentDto presidentDto) {
+    public PresidentDto updatePresident(@Valid @RequestBody PresidentDto presidentDto) {
 
         return presidentService.updatePresident(presidentDto);
     }
