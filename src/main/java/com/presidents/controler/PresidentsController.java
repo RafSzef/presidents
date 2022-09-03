@@ -34,10 +34,11 @@ public class PresidentsController {
 
         return presidentService.updatePresident(presidentDto);
     }
-    @ExceptionHandler({RuntimeException.class, IllegalAccessError.class})
-    public final ResponseEntity<Object> handlerException(Exception ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+
+//    @ExceptionHandler({RuntimeException.class, IllegalAccessError.class})
+//    public final ResponseEntity<Object> handlerException(Exception ex) {
+//        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     @PatchMapping("update")
     public PresidentDto updatePresidentPart(@RequestBody PresidentDto presidentDto) {

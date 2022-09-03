@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.presidents.exception.messeges.ExceptionMessages.ENTITY_FOR_PROVIDED_ID_NOT_EXIST;
+import static com.presidents.exception.messeges.ExceptionMessages.ENTITY_FOR_PROVIDED_PARAMETER_NOT_EXIST;
 import static java.util.Objects.nonNull;
 
 @Service
@@ -31,9 +32,12 @@ public class PresidentServiceImpl implements PresidentService {
 
     @Override
     public Set<PresidentDto> findPresidentsByName(String name) {
-        return presidentsRepository.findPresidentByName(name).stream()
+        Set<PresidentDto> presidents = presidentsRepository.findPresidentByName(name).stream()
                 .map(PresidentMapper::toDto)
                 .collect(Collectors.toSet());
+        if (presidents.isEmpty()){
+            throw new EntityNotFoundException(ENTITY_FOR_PROVIDED_PARAMETER_NOT_EXIST.getMessage());
+        }else return presidents;
     }
 
     @Override
