@@ -17,6 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.*;
 
@@ -25,7 +26,7 @@ public class GlobalControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public final ResponseEntity<Object> handlerEntityNotFoundException(Exception ex) {
-        return new ResponseEntity<>(getBody(HttpStatus.BAD_REQUEST, ex.getMessage()), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(getBody(HttpStatus.NOT_FOUND, ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     @Override
@@ -35,23 +36,21 @@ public class GlobalControllerAdvice extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(getBody(HttpStatus.BAD_REQUEST, message), HttpStatus.BAD_REQUEST);
     }
 
-
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers,
-                                                                  HttpStatus status,
-                                                                  WebRequest request) {
-
-        List<String> errors = ex.getBindingResult().getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
-        return new ResponseEntity<>(getBody(HttpStatus.NOT_FOUND, errors.toString()), HttpStatus.NOT_FOUND);
-    }
-
-    private static Map<String, Object> getBody(HttpStatus status, String message) {
+    private static Map<String, Object> getBody(HttpStatus status, Object message) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", Instant.now());
         body.put("status", status.value());
         body.put("error", status);
         body.put("message", message);
         return body;
+    }
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  HttpHeaders headers,
+                                                                  HttpStatus status, WebRequest request) {
+        List<String> errors = ex.getBindingResult().getFieldErrors()
+                .stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
+        return new ResponseEntity<>(getBody(HttpStatus.BAD_REQUEST, errors),
+                HttpStatus.BAD_REQUEST);
     }
 }
